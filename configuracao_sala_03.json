@@ -1,0 +1,73 @@
+{
+    "ip_servidor_central": "164.41.98.26",
+    "porta_servidor_central": 10390,
+    "ip_servidor_distribuido": "164.41.98.28",
+    "porta_servidor_distribuido": 10383,
+    "nome": "Sala 03",
+    "outputs": [
+        {
+            "type": "lampada",
+            "tag": "Lâmpada 01",
+            "gpio": 18
+        },
+        {
+            "type": "lampada",
+            "tag": "Lâmpada 02",
+            "gpio": 23
+        },
+        {
+            "type": "projetor",
+            "tag": "Projetor Multimidia",
+            "gpio": 25
+        },
+        {
+            "type": "ar-condicionado",
+            "tag": "Ar-Condicionado (1º Andar)",
+            "gpio": 24
+        },
+        {
+            "type": "alarme",
+            "tag": "Sirene do Alarme",
+            "gpio": 8
+        }
+    ],
+    "inputs": [
+        {
+          "type": "presenca",
+          "tag": "Sensor de Presença",
+          "gpio": 7
+        },
+        {
+            "type": "fumaca",
+            "tag": "Sensor de Fumaça",
+            "gpio": 1
+        },
+        {
+            "type": "janela",
+            "tag": "Sensor de Janela",
+            "gpio": 12
+        },
+        {
+            "type": "porta",
+            "tag": "Sensor de Porta",
+            "gpio": 16
+        },
+        {
+            "type": "contagem",
+            "tag": "Sensor de Contagem de Pessoas Entrada",
+            "gpio": 20
+        },
+        {
+            "type": "contagem",
+            "tag": "Sensor de Contagem de Pessoas Saída",
+            "gpio": 21
+        }
+    ],
+    "sensor_temperatura":[
+        {
+          "type": "dth22",
+          "tag": "Sensor de Temperatura e Umidade",
+          "gpio": 4
+        }
+    ]
+}
