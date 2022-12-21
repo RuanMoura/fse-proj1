@@ -6,7 +6,8 @@ import json
 import sys
 import threading
 import adafruit_dht
-from typing import Tuple, Any, List, Dict
+import board
+from typing import Any, Dict
 
 with open(sys.argv[1]) as FILE_CFG:
     CFG = json.load(FILE_CFG)
@@ -27,7 +28,8 @@ def config_gpio():
     GPIO.setup([input["gpio"] for input in CFG["inputs"]], GPIO.IN)
     for device in CFG["outputs"] + CFG["inputs"]:
         device["state"] = GPIO.input(device["gpio"])
-    DHT = adafruit_dht.DHT22(CFG["sensor_temperatura"][0]["gpio"])
+    dht_pin = board.D4 if CFG["sensor_temperatura"][0]["gpio"] == 4 else board.D18
+    DHT = adafruit_dht.DHT22( dht_pin, use_pulseio=False)
 
 def connect_central(skt: socket.socket):
     count = 0

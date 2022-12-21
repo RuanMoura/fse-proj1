@@ -16,6 +16,7 @@ PORT = CFG["porta_servidor_central"]
 CONNS = dict()
 DATA = dict()
 WIN = dict()
+PEOPLE_WIN = None
 ALARM = set()
 FIRE = set()
 STDSCR = None
@@ -44,6 +45,7 @@ def listen_connection(conn: socket.socket, room: str):
             if room in FIRE:
                 verify_fire(room)
             refresh_win(room)
+            refresh_people_win()
 
 def send_cmd(cmd: str, room: str):
     CONNS[room].send(cmd.encode())
@@ -122,7 +124,6 @@ def add_window(name):
     WIN[name] = curses.newwin(16, 32, 0, len(WIN)*32)
     refresh_win(name)
 
-
 def refresh_win(name):
     global WIN, DATA
     win = WIN[name]
@@ -150,6 +151,12 @@ def refresh_win(name):
     win.addstr(0, (32-len(name))//2, name)
     win.refresh()
 
+def refresh_people_win():
+    PEOPLE_WIN.clear()
+    PEOPLE_WIN.addstr(1, 1, str(sum([ DATA[room]["Contagem de pessoas"] for room in DATA ])))
+    PEOPLE_WIN.border()
+    PEOPLE_WIN.addstr(0, 2, "Pessoas no prédio")
+    PEOPLE_WIN.refresh()
 
 def menu():
     def add_cmd(cmd, opts, opt_row, opt_column, lower=False):
@@ -157,8 +164,8 @@ def menu():
         part = part.lower() if lower else part
         cmd.append(part)
 
-    win = curses.newwin(3, 75, 16, 0)
-    log = curses.newwin(4, 75, 19, 0)
+    win = curses.newwin(3, 75, 19, 0)
+    log = curses.newwin(4, 75, 22, 0)
 
     action = ['Ligar', 'Desligar', 'Sair']
     options = ['Dispositivos', 'Alarme', 'Alarme Incêndio']
@@ -227,7 +234,7 @@ def menu():
             opt_column = 0
 
 def main(stdscr):
-    global STDSCR, FP
+    global STDSCR, FP, PEOPLE_WIN
     STDSCR = stdscr
 
     curses.curs_set(0)
@@ -240,6 +247,7 @@ def main(stdscr):
 
     FP = open('log.csv', 'w')
     FP.write("Horário,Ação,Dispositivo,Sala\n")
+    PEOPLE_WIN = curses.newwin(3, 21, 16, 0)
     menu()
 
     for room in CONNS:
